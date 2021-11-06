@@ -24,6 +24,7 @@ const GetDate = (date, format) => {
 
 const UpdateStorage = () => {
 
+
   data[DateController.DateStringProp(date)] = DateController.GetDate();
   localStorage.setItem("checkinData", JSON.stringify(data))
 }
@@ -36,6 +37,7 @@ const CreateCheckinButton = () => {
   buttonBody.classList.add("checkinButton");
   buttonBody.addEventListener("click", (x) => {
     Checkin(date);
+    UpdateStorage();
     x.target.remove();
   });
   document.querySelector("body").appendChild(buttonBody);
@@ -46,7 +48,6 @@ const Checkin = (date) => {
   checkinBadge.classList.add(`checkinBadge`);
   checkinBadge.textContent = DateString(date);
   checkinContainer.appendChild(checkinBadge);
-  UpdateStorage();
 }
 
 const DateController = { "DateString": DateString, "DateStringProp": DateStringProp, "GetDate": GetDate };
@@ -55,20 +56,21 @@ const Months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
 let today = new Date;
 
 let date = GetDate(today);
+// const change = () => {
+//   today.setDate(8);
+//   date = GetDate(today);
+// };
+// change();
 
 const initPage = () => {
 
 };
 
-for (const x in data) {
-  Checkin(data[x]);
-}
 
 if (!data.hasOwnProperty(DateStringProp(date))) {
   CreateCheckinButton();
 }
 
-const change = () => {
-  today.setDate(12);
-  date = GetDate(today);
-};
+for (const x in data) {
+  Checkin(data[x]);
+}
